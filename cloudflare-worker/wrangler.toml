@@ -1,0 +1,23 @@
+name = "redbook-deepseek-proxy"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+# 非敏感默认值（key 用 secret，不要放这里）
+[vars]
+DEEPSEEK_MODEL = "deepseek-chat"
+DEEPSEEK_BASE_URL = "https://api.deepseek.com"
+# 允许的前端来源，逗号分隔；localhost 自动放行
+ALLOW_ORIGINS = "https://iceeeeli.github.io"
+
+# D1 数据库：存草稿
+[[d1_databases]]
+binding = "DB"
+database_name = "redbook-drafts"
+database_id = "45952a9b-3c2f-47b9-b1c9-8741f9cdc491"
+
+# 限流器：每个 IP 60 秒内最多 15 次 /generate
+[[unsafe.bindings]]
+name = "AI_LIMITER"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 15, period = 60 }
